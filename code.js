@@ -53,8 +53,51 @@ class Player {
         `;
     }
   }
+
+  doBattle(hero, enemy) {
+    let attacksByGood = this.getRan();
+    let attacksByEnemy = this.getRan();
+    let action = document.getElementById("action");
+
+    if (attacksByGood > attacksByEnemy) {
+      action.value = hero.name + " attacks " + enemy.name;
+      hero.health++;
+      enemy.health--;
+      enemy.level--;
+      hero.level++;
+    } else if (attacksByGood < attacksByEnemy) {
+      action.value = enemy.name + " attacks " + hero.name;
+      hero.health--;
+      enemy.health++;
+      enemy.level++;
+      hero.level--;
+    }
+  }
+
+  getRan() {
+    return Math.floor(Math.random() * 10) + 1;
+  }
 }
 
-let p1 = new Player("Hercules");
-console.log(p1.reset());
-console.log(p1.getAllInfo());
+let player1 = new Player("Hercules");
+let player2 = new Player("Atreyu");
+
+function initGame() {
+  player1.reset();
+  player2.reset();
+
+  status();
+}
+
+function startGame() {
+  player1.doBattle(player1, player2);
+  status();
+}
+
+function status() {
+  document.getElementById("p1");
+  p1.value = player1.getAllInfo();
+
+  document.getElementById("p2");
+  p2.value = player2.getAllInfo();
+}
